@@ -1,0 +1,88 @@
+<html>
+<!--
+ * Copyright (c) 2010 Warwick Poole. No rights reserved.  Governed by the WTFPL: http://en.wikipedia.org/wiki/WTFPL
+ Parts of this code was based on work by the lovely Susan Potter. https://github.com/mbbx6spp/github-chrome-extension
+-->
+<head>
+    <title>Test</title>
+    
+    <style type="text/css">
+        body {
+          font: 17px "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+          line-height: 22px;
+          background:#AFEEEE;
+          color: #333;
+        }
+        a {
+            color: #4A4A47;
+            text-decoration: none;
+        }
+        a:hover { 
+            background-color:#4A4A47;
+            color: white;
+            text-decoration: none;
+        }
+       
+       li.public {
+           list-style: none;
+        }
+
+        li.private {
+           list-style-image:
+            url('lock-icon.png');
+        }
+        .popup{
+        	width:300px;
+        	padding:10px 20px;
+        	margin-bottom:10px;
+        }
+
+      </style>
+    
+    <script src="jquery.min.js"></script>
+    <script>
+    function sortReposByPrivate(a,b){  
+            return a.private > b.private ? 1 : -1;  
+        };
+        
+    jQuery.gitHubRepos = function(organization, username, token, callback) {
+        jQuery.getJSON("https://github.com/api/v2/json/repos/show/" + organization + "?login=" + username + "&token=" + token + "&callback=?", callback);
+      }
+      
+      var github_organization = localStorage.octochrome_organization;
+      var github_username = localStorage.octochrome_username;
+      var github_token = localStorage.octochrome_token;
+      
+
+      $.gitHubRepos(github_organization, github_username, github_token, function(data) {
+        $('#ghlist').html('');
+        
+        
+
+        var repos = data.repositories;
+        
+        function sortReposByStatus(a,b){  
+                return a.private > b.private ? 1 : -1;  
+        };
+            
+        repos.sort(sortReposByStatus);
+
+        $(repos).each(function() {
+            if(this.private) {
+            	var listyle = "private";
+            }
+            else {
+            	var listyle = "public";
+            }
+          $("#ghlist").prepend("<li class='" + listyle + "'><a href='" + this.url + "' target='_blank'>" + this.name + "</a></li>");
+        });
+      });
+    </script>
+</head>
+
+<body>
+    <div class="popup">
+        <div id="ghlist"><ul></ul></div>
+    </div>      
+</body>
+</html>

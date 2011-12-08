@@ -1,0 +1,78 @@
+<!--
+ * Copyright (c) 2010 Warwick Poole. No rights reserved.  Governed by the WTFPL: http://en.wikipedia.org/wiki/WTFPL
+ Parts of this code was based on work by the lovely Susan Potter. https://github.com/mbbx6spp/github-chrome-extension
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.min.js"></script>
+    <script>
+    (function () {
+      function loadOptions() {
+        var usernameField = $("#octochrome_username");
+        usernameField.attr('value', localStorage['octochrome_username']);
+        
+        var usernameField = $("#octochrome_organization");
+        usernameField.attr('value', localStorage['octochrome_organization']);
+
+        var tokenField = $("#octochrome_token");
+        tokenField.attr('value', localStorage['octochrome_token']);
+      }
+
+      function saveOptions(organization, username, token) {
+        localStorage['octochrome_organization'] = organization;
+        localStorage['octochrome_username'] = username;
+        localStorage['octochrome_token'] = token;
+      }
+
+      function getGitHubUsername() {
+        return $("#octochrome_username").attr('value');
+      }
+      
+      function getGitHubOrganization() {
+          return $("#octochrome_organization").attr('value');
+        }
+
+      function getGitHubToken() {
+        return $("#octochrome_token").attr('value');
+      }
+
+      $(document).ready(function () {
+        var flash = $('.flash');
+        flash.hide();
+        loadOptions();
+        $("form#options").submit(function () {
+          var organization = getGitHubOrganization();
+          var username = getGitHubUsername();
+          var token = getGitHubToken();
+          saveOptions(organization, username, token);
+          flash.html('Your options have been saved.');
+          flash.show();
+        });
+      });
+    }) ();
+    </script>
+    <style>
+      fieldset { border: none; }
+      label { display: block; }
+      .flash { background-color: #ffd; }
+    </style>
+  </head>
+  <body>
+    <h1>Octochrome Options</h1>
+    <div class="flash"></div>
+    <form id="options">
+      <fieldset>
+        <label for="octochrome_organization">GitHub Organization or Username to load repositories from:</label>
+        <input type="text" name="octochrome_organization" id="octochrome_organization"/>
+        <label for="octochrome_username">GitHub Username to authenticate with:</label>
+        <input type="text" name="octochrome_username" id="octochrome_username"/>
+        <label for="octochrome_token">GitHub Token to authenticate with: (available at <a href="https://github.com/account/admin" target="_blank">https://github.com/account/admin</a>)</label>
+        <input type="text" name="octochrome_token" id="octochrome_token"/>
+      </fieldset>
+      <fieldset>
+        <input type="submit" name="submit" value="Save"/>
+      </fieldset>
+    </form>
+  </body>
+</html> 

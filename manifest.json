@@ -1,0 +1,14 @@
+{
+	"name": "Octochrome",
+	"version": "0.1",
+	"description": "Chrome Extension for simpler access to GitHub things.",
+	"icons":{
+		"128":"icon_128.png"
+	},
+	"options_page": "options.html",
+  "browser_action":	{
+		"default_icon": "icon_16.png",
+		"popup": "github_repos.html"
+	}
+
+}
