@@ -1,7 +1,8 @@
 {
 	"name": "Octochrome",
 	"version": "0.1",
-	"description": "Chrome Extension for simpler access to GitHub things.",
+	"update_url": "http://warwickp.com/octochrome_extension/updates.xml",
+	"description": "Chrome Extension for simpler access to GitHub repositories and more.",
 	"icons":{
 		"128":"icon_128.png"
 	},
